@@ -18,7 +18,6 @@ def parse_args():
   parser.add_argument("--outdir", type=str, default="videoid", help="dirname to save video IDs")
   return parser.parse_args(sys.argv[1:])
 
-
 def obtain_video_id(lang, fn_word, outdir="videoid", wait_sec=0.2):
   fn_videoid = Path(outdir) / lang / f"{Path(fn_word).stem}.txt"
   fn_videoid.parent.mkdir(parents=True, exist_ok=True)
@@ -50,5 +49,6 @@ def obtain_video_id(lang, fn_word, outdir="videoid", wait_sec=0.2):
 if __name__ == "__main__":
   args = parse_args()
 
+  print(args)
   filename = obtain_video_id(args.lang, args.wordlist, args.outdir)
   print(f"save {args.lang.upper()} video IDs to {filename}.")
