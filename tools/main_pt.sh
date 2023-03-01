@@ -10,16 +10,15 @@ save_path=$result_path
 
 mkdir -p $result_path/dump/$task
 
-python3 scripts/make_search_word.py $task --outdir $result_path
-python3 tools/obtain_video_id.py $result_path/word/$task/${task}wiki-latest-pages-articles-multistream-index.txt $result_path/videoid/${task}wiki-latest-pages-articles-multistream-index.txt
+###python3 scripts/make_search_word.py $task --outdir $result_path
+###python3 tools/obtain_video_id.py $result_path/word/$task/${task}wiki-latest-pages-articles-multistream-index.txt $result_path/videoid/${task}wiki-latest-pages-articles-multistream-index.txt
+###
+###bash tools/retrieve_subtitle_exists_mul.sh $task $result_path $nj_txt $nj_list
 
-exit 0;
-bash tools/retrieve_subtitle_exists_mul.sh $task $result_path $nj_txt $nj_list
+#python tools/download_video.py $task data/pt/202203_middle.csv --outdir /home/xudong.wang/xdwang/corpus/Portuguese/train/jtubespeech/video
 
-#bash tools/download_video_mul.sh $task $result_path $nj_video
-
-find $result_path/video -name "*webm" > $save_path/data/webm.list
-find $result_path/video -name "*.txt" > $save_path/data/txt.list
+#find /home/xudong.wang/xdwang/corpus/Portuguese/train/jtubespeech/video -name "*webm" > $save_path/data/webm.list
+#find /home/xudong.wang/xdwang/corpus/Portuguese/train/jtubespeech/video -name "*.txt" > $save_path/data/txt.list
 
 python tools/data/mp4towav_16k.py $save_path/data/webm.list $save_path/wavs
 

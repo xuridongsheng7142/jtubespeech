@@ -31,7 +31,7 @@ for f in `ls $video_list_split/video_id.list*`; do
       out_dir=$result_split/`echo $each_f | sed "s/.*\.//g"`
       mkdir -p $out_dir
       echo $out_dir
-      python scripts/retrieve_subtitle_exists.py $task $each_f --outdir $out_dir
+      python3 scripts/retrieve_subtitle_exists.py $task $each_f --outdir $out_dir
     done
   } & 
   sleep 1s;

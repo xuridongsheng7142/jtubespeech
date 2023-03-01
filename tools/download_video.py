@@ -4,7 +4,7 @@ import sys
 sys.path.append('scripts')
 import subprocess
 import shutil
-import pydub
+#import pydub
 from pathlib import Path
 from util import make_video_url, make_basename, vtt2txt, autovtt2txt
 import pandas as pd
@@ -37,6 +37,7 @@ def download_video(lang, fn_sub, outdir="video", wait_sec=1, keep_org=False):
     for k in ["wav", "wav16k", "vtt", "txt"]:
       fn[k] = Path(outdir) / lang / k / (make_basename(videoid) + "." + k[:3])
       fn[k].parent.mkdir(parents=True, exist_ok=True)
+      #fn[k].parent.mkdir(parents=True)
 
     if not fn["wav16k"].exists() or not fn["txt"].exists():
       print(videoid)
@@ -65,18 +66,18 @@ def download_video(lang, fn_sub, outdir="video", wait_sec=1, keep_org=False):
         continue
 
       # wav -> wav16k (resampling to 16kHz, 1ch)
-#      try:
-#        wav = pydub.AudioSegment.from_file(fn["wav"], format = "wav")
-#        wav = pydub.effects.normalize(wav, 5.0).set_frame_rate(16000).set_channels(1)
-#        wav.export(fn["wav16k"], format="wav", bitrate="16k")
-#      except Exception as e:
-#        print(f"Failed to normalize or resample downloaded audio: url = {url}, filename = {fn['wav']}, error = {e}")
-#        continue
-#
-#      # remove original wav
-#      if not keep_org:
-#        fn["wav"].unlink()
-#
+      try:
+        wav = pydub.AudioSegment.from_file(fn["wav"], format = "wav")
+        wav = pydub.effects.normalize(wav, 5.0).set_frame_rate(16000).set_channels(1)
+        wav.export(fn["wav16k"], format="wav", bitrate="16k")
+      except Exception as e:
+        print(f"Failed to normalize or resample downloaded audio: url = {url}, filename = {fn['wav']}, error = {e}")
+        continue
+
+      # remove original wav
+      if not keep_org:
+        fn["wav"].unlink()
+
       # wait
       if wait_sec > 0.01:
         time.sleep(wait_sec)
