@@ -44,8 +44,8 @@ def download_video(lang, fn_sub, outdir="video", wait_sec=1, keep_org=False):
       # download
       url = make_video_url(videoid)
       base = fn["wav"].parent.joinpath(fn["wav"].stem)
-#      cp = subprocess.run(f"yt-dlp --sub-lang {lang} --extract-audio --audio-format wav --write-sub {url} -o {base}.\%\(ext\)s", shell=True,universal_newlines=True)
-      cp = subprocess.run(f"yt-dlp -f 251 -c --sub-lang {lang} --write-sub {url} -o {base}.\%\(ext\)s", shell=True,universal_newlines=True)
+      cp = subprocess.run(f"yt-dlp -f 251 -c --sub-lang {lang} --extract-audio --audio-format wav --write-sub {url} -o {base}.\%\(ext\)s", shell=True,universal_newlines=True)
+      #cp = subprocess.run(f"yt-dlp -f 251 -c --sub-lang {lang} --write-sub {url} -o {base}.\%\(ext\)s", shell=True,universal_newlines=True)
       if cp.returncode != 0:
         print(f"Failed to download the video: url = {url}")
         continue
@@ -65,18 +65,18 @@ def download_video(lang, fn_sub, outdir="video", wait_sec=1, keep_org=False):
         continue
 
       # wav -> wav16k (resampling to 16kHz, 1ch)
-#      try:
-#        wav = pydub.AudioSegment.from_file(fn["wav"], format = "wav")
-#        wav = pydub.effects.normalize(wav, 5.0).set_frame_rate(16000).set_channels(1)
-#        wav.export(fn["wav16k"], format="wav", bitrate="16k")
-#      except Exception as e:
-#        print(f"Failed to normalize or resample downloaded audio: url = {url}, filename = {fn['wav']}, error = {e}")
-#        continue
-#
-#      # remove original wav
-#      if not keep_org:
-#        fn["wav"].unlink()
-#
+      try:
+        wav = pydub.AudioSegment.from_file(fn["wav"], format = "wav")
+        wav = pydub.effects.normalize(wav, 5.0).set_frame_rate(16000).set_channels(1)
+        wav.export(fn["wav16k"], format="wav", bitrate="16k")
+      except Exception as e:
+        print(f"Failed to normalize or resample downloaded audio: url = {url}, filename = {fn['wav']}, error = {e}")
+        continue
+
+      # remove original wav
+      if not keep_org:
+        fn["wav"].unlink()
+
       # wait
       if wait_sec > 0.01:
         time.sleep(wait_sec)

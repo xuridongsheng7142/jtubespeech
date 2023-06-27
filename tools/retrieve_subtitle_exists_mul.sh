@@ -31,7 +31,12 @@ for f in `ls $video_list_split/video_id.list*`; do
       out_dir=$result_split/`echo $each_f | sed "s/.*\.//g"`
       mkdir -p $out_dir
       echo $out_dir
-      python scripts/retrieve_subtitle_exists.py $task $each_f --outdir $out_dir
+      checkpoint=$out_dir/$task/${task}wiki-latest-pages-articles-multistream-index.csv
+      if [ -f $checkpoint ]; then
+          python3 scripts/retrieve_subtitle_exists.py $task $each_f --outdir $out_dir --checkpoint $checkpoint
+      else
+          python3 scripts/retrieve_subtitle_exists.py $task $each_f --outdir $out_dir
+      fi
     done
   } & 
   sleep 1s;

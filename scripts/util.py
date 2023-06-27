@@ -127,5 +127,17 @@ def get_subtitle_language(response_youtube):
       if lang in lang_code:
         subtitle[sub_type].append(lang)
 
+  sub_type = None
+  subtitle = {"auto": [], "sub": []}
+  for r in response_youtube.split("\n"):
+    if r.startswith("[info] Available automatic captions for"):
+      sub_type = "auto"
+    elif r.startswith("[info] Available subtitles for"):
+      sub_type = "sub"
+    elif sub_type is not None:
+      lang = r.split(" ")[0].lower()
+      if lang in lang_code:
+        subtitle[sub_type].append(lang)
+
   return subtitle["auto"], subtitle["sub"]
 
