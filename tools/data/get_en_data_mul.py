@@ -19,12 +19,12 @@ def get_one_wav_split(wav_path):
                 if len(line_t.strip().split('\t')) == 3:
                     start_time, end_time, ref = line_t.strip().split('\t')
                     char_to_save = re.findall(pattern, ref)
-                    if float(end_time) - float(start_time) >= 2 and len(char_to_save) > 0:
+                    each_ref = ''.join([char for char in ref if char in char_to_save])
+                    if float(end_time) - float(start_time) >= 2 and each_ref != '' and float(end_time) - float(start_time) <= 20:
                         start_point = int(float(start_time) * fs)
                         end_point = int(float(end_time) * fs)
                         each_data = data[start_point:end_point]
                         each_data_name = wav_name + "_" + str(start_point) + "_" + str(end_point)
-                        each_ref = result_string = ''.join([char for char in ref if char in char_to_save])
                         count += each_data_name + ' ' + each_ref + '\n'
                         save_data = data_root_path + '/' + each_data_name + '.wav'
                         if not os.path.exists(save_data):
@@ -51,7 +51,7 @@ with open(textlist, "r") as f:
         utt = os.path.basename(text_path).replace(".txt", "")
         utt_dict[utt] = text_path
 
-pattern = re.compile(r"[\u0E00-\u0E7F']")
+pattern = re.compile(r"[a-zA-Z' -]")
 
 with open(wavlist, "r") as f:
     lines = f.readlines()
