@@ -4,6 +4,7 @@ import sys, os
 import re
 import multiprocessing
 import logging
+import string
 
 logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
@@ -21,6 +22,8 @@ def get_one_wav_split(wav_path):
                     ref = ref.lower() 
                     char_to_save = re.findall(pattern, ref)
                     each_ref = ''.join([char for char in ref if char in char_to_save])
+                    each_ref = re.sub(r'[{}]+'.format(string.punctuation.replace('\'', '')),'', each_ref)
+                    each_ref = re.sub(' +', ' ', each_ref)
                     if float(end_time) - float(start_time) >= 2 and each_ref != '' and float(end_time) - float(start_time) <= 20:
                         start_point = int(float(start_time) * fs)
                         end_point = int(float(end_time) * fs)
@@ -53,14 +56,14 @@ with open(textlist, "r") as f:
         utt = os.path.basename(text_path).replace(".txt", "")
         utt_dict[utt] = text_path
 
-pattern = re.compile(r"[a-zA-Zàâçéèêëîïôûùüÿñæœ\s']")
+pattern = re.compile(r"[1700-\u171F'\s]")
 
 with open(wavlist, "r") as f:
     lines = f.readlines()
 
 print("Start get data split, please wait !")
 cc = multiprocessing.cpu_count()
-proc_pool = multiprocessing.Pool(int(cc/8))
+proc_pool = multiprocessing.Pool(int(4))
 
 #for line in lines:
 #    data_path = line.strip()

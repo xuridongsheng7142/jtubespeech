@@ -56,6 +56,11 @@ pattern = re.compile(r"[\u0E00-\u0E7F']")
 with open(wavlist, "r") as f:
     lines = f.readlines()
 
+#for line in lines:
+#    data_path = line.strip()
+#    get_one_wav_split(data_path)
+#exit(0)
+
 print("Start get data split, please wait !")
 cc = multiprocessing.cpu_count()
 proc_pool = multiprocessing.Pool(int(cc/8))
