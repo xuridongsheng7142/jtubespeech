@@ -1,6 +1,8 @@
 import re
 from num2words import num2words
 
+lang = 'de'
+
 def convert_number_to_words(sentence):
     patterns = {
         r'\b\d+(?:[,.]\d+)+(?!\w|%)': lambda match: convert_number(match),  # 普通数字和小数
@@ -45,44 +47,44 @@ def convert_number(number):
     if ',' in number:
         parts = number.split(',')
         assert len(parts) == 2
-        return num2words(float(number.replace(',', '.')), lang='fr')
+        return num2words(float(number.replace(',', '.')), lang=lang)
     elif '.' in number:
         assert len(number.split('.')[-1]) == 3
-        return num2words(int(number.replace('.', '')), lang='fr')
+        return num2words(int(number.replace('.', '')), lang=lang)
     else:
         #if int(number) >= 1500 and int(number) <= 2099: # 年份和数字歧义
         #    return number
         #else:
-            return num2words(int(number), lang='fr')
+            return num2words(int(number), lang=lang)
 
 def convert_date_to_text(date):
     day, month, year = date.split('/')
     # 将日期转换为越南语文字形式
-    day_text = num2words(int(day), lang='fr')
-    month_text = num2words(int(month), lang='fr')
-    year_text = num2words(int(year), lang='fr')
+    day_text = num2words(int(day), lang=lang)
+    month_text = num2words(int(month), lang=lang, to='ordinal')
+    year_text = num2words(int(year), lang=lang)
     
     # 构建越南语文字形式的日期
-    date_text = f'le {day_text} {month_text} {year_text}'
+    date_text = f'am {day_text} {month_text} {year_text}'
 
     return date_text
 
 def convert_number_to_fraction(number):
     numerator, denominator = number.split('/')
     # 将分子和分母转换为越南语文字形式
-    numerator_text = num2words(int(numerator), lang='fr')
-    denominator_text = num2words(int(denominator), lang='fr')
+    numerator_text = num2words(int(numerator), lang=lang)
+    denominator_text = num2words(int(denominator), lang=lang)
     # 构建越南语文字形式的分数
-    fraction_text = f'{numerator_text} sur {denominator_text}'
+    fraction_text = f'{numerator_text} von {denominator_text}'
     return fraction_text
 
 def convert_percent_to_text(percent):
     percent = percent.rstrip('%')
     # 将百分数转换为越南语文字形式
     percent = percent.replace(',', '.')
-    percent_text = num2words(float(percent), lang='fr')
+    percent_text = num2words(float(percent), lang=lang)
     # 构建越南语文字形式的百分数
-    percent_text = f'{percent_text} pour cent'
+    percent_text = f'{percent_text} prozent'
     
     return percent_text
 
@@ -93,14 +95,14 @@ def convert_time(time):
 
     if len(parts) > 2:
         seconds = int(parts[2])
-        hours_word = num2words(hours, lang='fr')
-        minutes_word = num2words(minutes, lang='fr')
-        seconds_word = num2words(seconds, lang='fr')
-        return f'{hours_word} heures {minutes_word} minutes {seconds_word} secondes'
+        hours_word = num2words(hours, lang=lang)
+        minutes_word = num2words(minutes, lang=lang)
+        seconds_word = num2words(seconds, lang=lang)
+        return f'{hours_word} stunden {minutes_word} minuten {seconds_word} sekunden'
     else:
-        hours_word = num2words(hours, lang='fr')
-        minutes_word = num2words(minutes, lang='fr')
-        return f'{hours_word} heures {minutes_word} minutes'
+        hours_word = num2words(hours, lang=lang)
+        minutes_word = num2words(minutes, lang=lang)
+        return f'{hours_word} stunden {minutes_word} minuten'
 
 if __name__ == '__main__':
     import sys, os
