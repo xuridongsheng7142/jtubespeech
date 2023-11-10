@@ -28,10 +28,11 @@ result_path=/home/xudong.wang/xdwang/corpus/jtubespeech/$task/${task}_sub
 #    }
 #}' "$file_path" > $result_path/ref_num.txt
 
-#python tools/data/get_num2word_de.py $result_path/ref_num.txt $result_path/ref_num_fix.txt
+python tools/data/get_num2word_de.py $result_path/ref_num.txt $result_path/ref_num_fix.txt
 
 bash tools/data/fil_num.sh $result_path/ref_num_fix.txt > $result_path/ref_num_todo.txt
 fil_commen_id $result_path/ref_num_todo.txt $result_path/ref_num_fix.txt $result_path/ref_num_done.txt
 
-exit 0;
-python tools/data/get_ref_fil_fr.py $result_path/ref_num_fix.txt > $result_path/ref_num_fix_fil.txt
+python tools/data/get_ref_fil_task.py $result_path/ref_num_done.txt $task > $result_path/ref_num_done_fil.txt
+
+python tools/data/check_diff.py $result_path/ref_num_done.txt $result_path/ref_num_done_fil.txt > $result_path/ref_num_diff.txt

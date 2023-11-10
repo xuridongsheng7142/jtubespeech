@@ -36,4 +36,3 @@ with open(textlist, "r") as f:
 
 with open(ref_txt, 'w') as f:
     f.write(count)
-

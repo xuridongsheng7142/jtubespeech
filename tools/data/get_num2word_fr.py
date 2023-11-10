@@ -100,6 +100,8 @@ def convert_time(time):
     else:
         hours_word = num2words(hours, lang='fr')
         minutes_word = num2words(minutes, lang='fr')
+        if minutes == 0:
+            return f'{hours_word} heures'
         return f'{hours_word} heures {minutes_word} minutes'
 
 if __name__ == '__main__':

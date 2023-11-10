@@ -145,6 +145,8 @@ def convert_time(time):
     else:
         hours_word = num2words(hours, lang='vi')
         minutes_word = num2words(minutes, lang='vi')
+        if minutes == 0:
+            return f'{hours_word} giờ'
         return f'{hours_word} giờ {minutes_word} phút'
 
 if __name__ == '__main__':
