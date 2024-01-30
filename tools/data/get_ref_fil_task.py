@@ -5,7 +5,8 @@ import json
 text, lang = sys.argv[1:3]
 
 def has_digit(string):
-    return bool(re.search(r'\d', string))
+    return bool(re.search(r'[0-9]', string))
+    #return bool(re.search(r'\d', string))
 
 re_dict = {}
 with open('conf/re.txt', 'r') as f:
@@ -30,7 +31,7 @@ pattern = re.compile(match_info)
 with open(text, 'r') as f:
     for line in f:
         utt, ref = line.strip().split(' ', 1)
-        if has_digit(ref) or ' -' in ref or '- ' in ref or '/' in ref or '%' in ref:
+        if has_digit(ref) or ' -' in ref or '- ' in ref or '/' in ref or '%' in ref or ':' in ref:
             pass
         else:
             for key, value in replace_dict.items():

@@ -4,7 +4,7 @@ from multiprocessing import Pool
 textlist, ref_txt = sys.argv[1:3]
 
 fs = 16000
-rm_str_list = ['&nbsp', '&lt', '&gt', '&amp', '.', ',', ';', ':', '!', '?', '"']
+rm_str_list = ['&nbsp', '&lt', '&gt', '&amp']
 replace_dict = {"’": "'"}
 
 def process_line(line):

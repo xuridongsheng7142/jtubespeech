@@ -12,5 +12,5 @@ with open(text2, 'r') as f:
     for line in f:
         utt, ref = line.strip().split(' ', 1)
         if utt in ref_dict:
-            if ref != ref_dict[utt]:
+            if ref.lower() != ref_dict[utt].lower():
                 print(utt + '\t' +  ref_dict[utt] + '\t' + ref)

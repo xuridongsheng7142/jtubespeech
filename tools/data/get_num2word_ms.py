@@ -101,7 +101,7 @@ def convert_percent_to_text(percent):
     else:
         percent_text = num2words(int(percent), lang=lang)
     # 构建越南语文字形式的百分数
-    percent_text = f'{percent_text} persen'
+    percent_text = f'{percent_text} peratus'
     
     return percent_text
 
